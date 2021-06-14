@@ -1,0 +1,17 @@
+FROM python:3
+
+ENV WEB_SITE_PORT 80
+EXPOSE 80
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+WORKDIR /usr/public
+COPY public/ ./
+
+WORKDIR /usr/src
+COPY src/web-start.py ./
+
+WORKDIR /usr
+
+CMD [ "python", "./src/web-start.py" ]

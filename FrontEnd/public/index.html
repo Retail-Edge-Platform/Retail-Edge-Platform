@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Shopper Interface</title>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css?v=123">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+ 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="user-scalable=no" />
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+</head>
+<style>
+    .lcl-bg-mild-black {
+        background-color: #00000088; 
+    }
+
+    .lcl-fs-30 {
+        font-size:30px;
+    }
+
+    .lcl-fs-10 {
+        font-size:10px;
+    }
+
+    .bar rect {
+        fill: orange;
+    }
+
+    .bar text {
+
+        fill: white;
+        font: 20px Helvetica;
+        text-anchor: end;
+    }
+
+    .no-select-text {
+        /* Stop Text Selection */
+        -webkit-user-select: none; /* Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+/Edge */
+        user-select: none; /* Standard */
+    }
+
+    .modal.fade .modal-dialog {
+        -webkit-transition: -webkit-transform 0.3s ease-out;
+            -moz-transition: -moz-transform 0.3s ease-out;
+            -o-transition: -o-transform 0.3s ease-out;
+                transition: transform 0.3s ease-out;
+    }
+
+    .modal.in .modal-dialog {
+
+    }
+
+    .bg-gray {
+        background-color: #3d3c3c !important;
+    }
+    .bg-gray-dif {
+        background-color: #3f2020 !important;
+    }
+    .jquery-youtube-player {
+
+    }
+    
+</style>
+
+<body class="bg-dark no-select-text" style="padding-top: 70px;">
+
+<div class="container-fluid">
+    <div id="mainCarouselAutoadvance" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#mainCarouselCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#mainCarouselCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#mainCarouselCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#mainCarouselCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#mainCarouselCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active" id="crab-slide" data-bs-interval="5000">
+            <img src="images/Crab.jpeg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block lcl-bg-mild-black">
+                <h1>Snap Up These Deals</h1>
+                <p class="lcl-fs-30">If you have been keeping an eye open for seafood your search is over</p>
+                <p class="lcl-fs-10">(touch screen for more)</p>
+            </div>
+          </div>
+          <div class="carousel-item" id="screw-slide" data-bs-interval="5000">
+            <img src="images/Screws.jpeg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block lcl-bg-mild-black">
+                <h1>Don't Just Stand There</h1>
+                <p class="lcl-fs-30">Tired of screwing around come and grab our fastners fast</p>
+                <p class="lcl-fs-10">(touch screen for more)</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="images/ducks.jpeg" id="duck-slide" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block lcl-bg-mild-black">
+                <h1>Just Ducky</h1>
+                <p class="lcl-fs-30">These little ducks make playing in a storm drain even funner</p>  
+                <p class="lcl-fs-10">(touch screen for more)</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="images/bass.jpeg" id="bass-slide" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block lcl-bg-mild-black">
+                <h1>You Can't Tuna Fish</h1>
+                <p class="lcl-fs-30">Feeling strung out? Why not take a lesson or two and relax</p>
+                <p class="lcl-fs-10">(touch screen for more)</p>
+            </div>
+          </div>
+          <div class="carousel-item" id="cloud-slide">
+            <img src="images/clouds.jpeg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block lcl-bg-mild-black">
+                <h1>Seeing Clearly Now</h1>
+                <p class="lcl-fs-30">Need to change the color of those drab walls? Let nature be your inspiration</p>
+                <p class="lcl-fs-10">(touch screen for more)</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarouselAutoadvance" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarouselAutoadvance" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<!-- START OF REVIEWS/VIDEO MODAL -->
+<div class="modal fade" id="masterModal" tabindex="-1" aria-labelledby="masterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen bg-dark">
+      <div class="modal-content bg-dark">
+
+        <div class="modal-header bg-dark text-white">
+
+          <h5 class="modal-title" id="masterModalLabel"><span id="subject-title">Modal</span> <span id="page-objective">Review</span></h5> 
+          <button type="button" class="btn-close modal_done" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!-- Screw  https://www.youtube.com/watch?v=f0gSJa3L_7c -->
+        <div class="modal-body hide-modal bg-dark text-white" id="cloud-content" >
+            <div class="container-fluid">
+
+                <div id="cloud_review" class="text-white bg-dark"></div>
+
+                <div class="video-screen">  
+                    <div class="row d-flex align-items-center justify-content-center">
+                        <h1>Cloud Video</h1>
+                        <div id="cloud_video" class="d-flex align-items-center justify-content-center"></div>
+                        <wiframe width="560" height="630" src="https://www.youtube.com/embed/LYubHpEMTPM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="modal-body hide-modal" id="crab-content" >
+            <div class="container-fluid">
+
+                <div id="crab_review" class="text-white bg-dark"></div>
+               
+                <div class="video-screen">  
+                    <div class="row d-flex align-items-center justify-content-center">
+                        <h1>Crab Video</h1>
+                        <div id="crab_video" class="d-flex align-items-center justify-content-center"></div>
+                        <wiframe width="560" height="630" src="https://www.youtube.com/embed/WqHp0zOcysM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen start="10"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-body hide-modal" id="duck-content" >
+            <div class="container-fluid">
+
+                <div id="duck_review" class="text-white bg-dark"></div>
+
+                <div class="video-screen">  
+                    <div class="row d-flex align-items-center justify-content-center">
+                        <h1>Duck Video</h1>
+                        <div id="duck_video" class="d-flex align-items-center justify-content-center"></div>
+                        <Wiframe  width="560" height="630" src="https://www.youtube.com/embed/e90eWYPNtJ8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal-body hide-modal" id="bass-content" >
+            <div class="container-fluid">
+
+                <div id="bass_review" class="text-white bg-dark"></div>
+
+                <div class="video-screen">  
+                    <div class="row d-flex align-items-center justify-content-center">
+                        <h1>Bass Video</h1>
+                        <div id="bass_video" class="d-flex align-items-center justify-content-center"></div>
+                        <wiframe width="560" height="630" src="https://www.youtube.com/embed/cVsQLlk-T0s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-body hide-modal" id="screws-content" >
+            <div class="container-fluid">
+
+                <div id="screws_review" class="text-white bg-dark"></div>
+
+                <div class="video-screen">  
+                    <div class="row d-flex align-items-center justify-content-center">
+                        <h1>Screws Video</h1>
+                        <div id="screws_video" class="d-flex align-items-center justify-content-center"></div>
+                        <wiframe width="560" height="630" src="https://www.youtube.com/embed/JmSXo0XdWoA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+        <div class="modal-footer">
+            <button type="button" class="btn btn-dark" id="pick-up-product">Pick-up Product</button>
+            <button type="button" class="btn btn-dark" id="put-down-product">Put-down Product</button>
+            <button type="button" class="btn btn-primary" id="review-video-toggler">Review/Video</button>
+            <button type="button" class="btn btn-secondary" id="modal_over" data-bs-dismiss="modal">Back</button>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- END OF REVIEWS/VIDEO MODAL -->
+
+<script type="text/javascript" src="js/jquery-3.6.0.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.bundle.min.js?v=123"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/d3.v3.min.js"></script>
+<script type="text/javascript" src="js/random_bar.js"></script>
+<!-- https://github.com/nirvanatikku/jQuery-TubePlayer-Plugin/tree/2.1.0 -->
+<script type="text/javascript" src="js/jquery.tubeplayer.js"></script>
+<script type="text/javascript" src="js/websocket.js"></script>
+
+
+<script type="text/javascript">
+
+
+    const PRD_ID_CRAB = 1;
+    const PRD_ID_SCREWS = 2;
+    const PRD_ID_DUCK = 3;
+    const PRD_ID_BASS = 4;
+    const PRD_ID_CLOUD = 5;
+
+    const product_names = ['no-product', 'crab', 'screws', 'duck', 'bass', 'cloud'];
+    const interaction_types = ['no-interaction', 'pick-up', 'put-down', 'touch-review', 'touch-video', 'touch-back'];
+
+    
+    var current_product = 0;
+    var current_view = 0;
+    var last_action = "NONE";
+    var view_state = 0;
+    var product_pickup = 0;
+    var product_putdown = 0;
+
+    function ws_callback(data) {
+        console.log(data);
+    }
+    var main_ws_socket = ws_setup(path, ws_callback);
+
+    function getTimestamp(){
+        var d =  new Date();
+        return d.toISOString();
+    }
+
+    function ms_seconds_since_epoch(){ 
+        var d =  new Date();
+        return Math.floor( d ); 
+    }
+      
+    function send_update() {
+        var product_name = product_names[current_product];
+        var interaction_type = interaction_types[0];
+
+        if (product_pickup == 1 && product_putdown == 0) {
+            interaction_type = interaction_types[1];
+        }
+        else if (product_pickup == 0 && product_putdown == 1) {
+            interaction_type = interaction_types[2];
+        }
+        else if (current_product != 0 && current_view == 1) {
+            interaction_type = interaction_types[3];
+        }
+        else if (current_product != 0 && current_view == 2) {
+            interaction_type = interaction_types[4];
+        }
+        else {
+            interaction_type = interaction_types[5];
+        }
+
+        var interaction_obj = {
+            obj_type: "UPDATE",
+            "product-id": current_product,
+            "product-name": product_name,
+            "timestamp": ms_seconds_since_epoch(),
+            "interaction-type": interaction_type
+        }
+
+        ws_send_message(interaction_obj, main_ws_socket);
+    }
+
+    var myModal = new bootstrap.Modal(document.getElementById('masterModal'), {
+        keyboard: false
+    })
+
+    $("#cloud-slide").on("click", function(){
+        $("#subject-title").html("CLOUD");
+        $(".hide-modal").hide();
+        $("#cloud-content").show();
+        var audio = new Audio('sounds/Fat_Whoosh.mp3');
+        audio.play();
+        myModal.show();
+        current_view = view_state;
+        current_product = PRD_ID_CLOUD;
+        send_update();
+    });
+
+    $("#crab-slide").on("click", function(){
+        $("#subject-title").html("CRAB");
+        $(".hide-modal").hide();
+        $("#crab-content").show();
+        var audio = new Audio('sounds/Fat_Whoosh.mp3');
+        audio.play();
+        myModal.show();
+        current_view = view_state;
+        current_product = PRD_ID_CRAB;
+        send_update();
+    });
+
+    $("#screw-slide").on("click", function(){
+        $("#subject-title").html("SCREW");
+        $(".hide-modal").hide();
+        $("#screws-content").show();
+        var audio = new Audio('sounds/Fat_Whoosh.mp3');
+        audio.play();
+        myModal.show();
+        current_view = view_state;
+        current_product = PRD_ID_SCREWS;
+        send_update();
+    });
+
+    $("#duck-slide").on("click", function(){
+        $("#subject-title").html("DUCK");
+        $(".hide-modal").hide();
+        $("#duck-content").show();
+        var audio = new Audio('sounds/Fat_Whoosh.mp3');
+        audio.play();
+        myModal.show();
+        current_view = view_state;
+        current_product = PRD_ID_DUCK;
+        send_update();
+    });
+
+    $("#bass-slide").on("click", function(){
+        $("#subject-title").html("BASS");
+        $(".hide-modal").hide();
+        $("#bass-content").show();
+        var audio = new Audio('sounds/Fat_Whoosh.mp3');
+        audio.play();
+        myModal.show();
+        current_view = view_state;
+        current_product = PRD_ID_BASS;
+        send_update();
+
+    });
+
+    var review_video_state = true;
+    $('.video-screen').hide();
+    $('.reviews-screen').show();
+    $('#page-objective').html("Reviews");
+    view_state = 1;
+
+    $("#review-video-toggler").on('click', function(){
+        if (review_video_state) {
+            $('#page-objective').html("Video");
+            $('.video-screen').show(1000);
+            $('.reviews-screen').hide(1000);
+            review_video_state = false;
+            view_state = 2;
+            current_view = view_state;
+        }
+        else {
+            $('#page-objective').html("Reviews");
+            $('.video-screen').hide(1000);
+            $('.reviews-screen').show(1000);
+            review_video_state = true;
+            pause_all_videos();
+            view_state = 1;
+            current_view = view_state;
+        }
+        send_update();
+    });
+
+    function random_barchart_custom(where) {
+        var width = 200;
+        var barHeight = 40;
+        var number_of_bars = 5;
+        var max_value = 60;
+        var titles = ["Like","Recommend","Fresh","Size","Portability"];
+        random_barchart_comp_text(where, width, barHeight, number_of_bars, max_value, titles);
+    }
+
+    $("#crab_review").load('crab-review.html', function(){
+        random_barchart_custom('#crab-bars');
+    });
+
+    $("#cloud_review").load('cloud-review.html', function(){
+        random_barchart_custom('#cloud-bars');
+    });
+
+    $("#duck_review").load('duck-review.html', function(){
+        random_barchart_custom('#duck-bars');
+    });
+
+    $("#bass_review").load('bass-review.html', function(){
+        random_barchart_custom('#bass-bars');
+    });
+
+    $("#screws_review").load('screws-review.html', function(){
+        random_barchart_custom('#screws-bars');
+    });
+
+    $('#link').click(function () {
+        var src = 'http://www.youtube.com/v/FSi2fJALDyQ&amp;autoplay=1';
+        $('#viframe').attr('src', src);
+    });
+
+    $(".modal_done").click('on', function() {
+        pause_all_videos();
+        current_view = 0;
+        current_product = 0;
+        send_update();
+
+    });
+    
+    $("#modal_over").click('on', function() {
+        pause_all_videos();
+        current_view = 0;
+        current_product = 0;
+        send_update();
+    });
+ 
+    jQuery(document).ready(function(){
+
+        jQuery("#crab_video").tubeplayer({
+            initialVideo: "WqHp0zOcysM", 
+            width: 1080, 					      			// the width of the player
+            height: 900, 					      			// the height of the player
+
+            //width="560" height="630"
+            onPlayerLoaded: function(){
+                //console.log(this.tubeplayer("data"));
+            },
+        });
+
+        jQuery("#screws_video").tubeplayer({
+            initialVideo: "JmSXo0XdWoA",
+            width: 1080, 					      			// the width of the player
+            height: 900, 					      			// the height of the player
+
+            //width="560" height="630"
+            onPlayerLoaded: function(){
+                //console.log(this.tubeplayer("data"));
+            },
+        });
+
+
+        jQuery("#duck_video").tubeplayer({
+            initialVideo: "e90eWYPNtJ8",
+            width: 1080, 					      			// the width of the player
+            height: 900, 					      			// the height of the player
+
+            //width="560" height="630"
+            onPlayerLoaded: function(){
+                //console.log(this.tubeplayer("data"));
+            },
+        });
+
+        jQuery("#bass_video").tubeplayer({
+            initialVideo: "cVsQLlk-T0s",
+            width: 1080, 					      			// the width of the player
+            height: 900, 					      			// the height of the player
+
+            //width="560" height="630"
+            onPlayerLoaded: function(){
+                //console.log(this.tubeplayer("data"));
+            },
+        });
+
+        jQuery("#cloud_video").tubeplayer({
+            initialVideo: "LYubHpEMTPM",
+            width: 1080, 					      			// the width of the player
+            height: 900, 					      			// the height of the player
+
+            //width="560" height="630"
+            onPlayerLoaded: function(){
+                //console.log(this.tubeplayer("data"));
+            },
+        });
+
+    });
+
+    function pause_all_videos() {
+        jQuery("#crab_video").tubeplayer("pause");
+        jQuery("#screws_video").tubeplayer("pause");
+        jQuery("#duck_video").tubeplayer("pause");
+        jQuery("#bass_video").tubeplayer("pause");
+        jQuery("#cloud_video").tubeplayer("pause");
+    }
+
+    $('#pick-up-product').on('click', function() {
+        product_pickup = 1;
+        send_update();
+        product_putdown = 0;
+    });
+
+    $('#put-down-product').on('click', function() {
+        product_putdown = 1;
+        send_update();
+        product_putdown = 0;
+    });
+
+
+</script>
+
+</body>
+</html>
