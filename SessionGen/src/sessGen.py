@@ -6,6 +6,7 @@ import random
 import math
 import json
 import paho.mqtt.client as mqtt
+import redis
 import time as dtime
 import os
 import sys
@@ -128,8 +129,70 @@ def mqtt_connect():
         applog("MQTT CONNECTED")
         return mqtt_client
     except: # TODO: Handle this correctly
-        print(f"ERROR: Couldn't make connection with MQTT broker at {MQTT_IP_ADDRESS} on port {MQTT_PORT}")
+        applog(f"ERROR: Couldn't make connection with MQTT broker at {MQTT_IP_ADDRESS} on port {MQTT_PORT}")
         return None
+
+def mqtt_output_stream(stream, mqtt_topic):
+    mqtt_client = mqtt_connect() # Returns None if cant' connect
+        
+    if mqtt_client is not None:
+        for interaction in stream:
+            mqtt_message = json.dumps(interaction)
+            ret = mqtt_client.publish(mqtt_topic, mqtt_message)
+        applog("Output sent via MQTT")
+    else:
+        applog("ERROR: MQTT client didn't connect")
+        exit(1)
+
+def redis_connect():
+    #Get IP Address of Redis Server. When in docker_compose 
+    REDIS_IP_ADDRESS = os.getenv("REDIS_IP_ADDRESS", "localhost")
+    REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))
+    # Open connection to redis here and store the client as a property of this object
+    try:
+        redis_client = redis.Redis(host=REDIS_IP_ADDRESS, port=REDIS_PORT, db=0)
+        applog("REDIS CLIENT CREATED")
+    except:
+        redis_client = None
+        applog(f"ERROR: Couldn't make connection with REDIS server at {REDIS_IP_ADDRESS} on port {REDIS_PORT}")
+    return redis_client
+
+
+
+
+def redis_output_stream(stream):
+    redis_client = redis_connect() # Returns None if cant' connect
+         
+    if redis_client is not None:
+        count = 0
+        for interaction in stream:
+            # format redis key
+            list_to_join = []
+            # TODO: Save these also in a redis tme series
+            interaction["src-id"] = "sim"
+            pref_order = ["src-id", "product-id", "product-name", "interaction-type", "timestamp"]
+            for field in pref_order:
+                list_to_join.extend([field, str(interaction[field])])
+            # TODO:Should test that none of the items have the delimiter : in them
+            entry_key = ':'.join(list_to_join)
+            redis_client.set(entry_key, count)
+
+            #********************************
+            # ZADD this to a set to make searching by datetime easier
+            score = int(interaction['timestamp'])
+            scored_data = entry_key
+            z_key = "sim_ts"
+            redis_client.zadd(z_key, {scored_data: score})
+
+            count += 1
+            if count > 1000:
+                applog("Only going to put in the first 1000")
+                break
+        applog("Output recorded in Redis")
+    else:
+        applog("ERROR: Redis client didn't connect")
+        exit(1)
+
 
 if __name__ == "__main__":
     """sessGen - builds a multi-day stream of sessions.  
@@ -156,6 +219,10 @@ if __name__ == "__main__":
                         default=4.0,
                         help='Average sessions per hour as float.')
     args = parser.parse_args()
+
+    output_to_use = os.getenv("OUTPUT_TO", "STDOUT")
+
+    applog("OUTPUT TO", output_to_use)
 
     # Print received parameters
     print("Running session simulation:")
@@ -193,22 +260,24 @@ if __name__ == "__main__":
     # Get simulation stream
     stream = sim_sesssions.get_stream()
 
-    mqtt_client = mqtt_connect()
-    mqtt_topic = '/ui-stream'
 
-    if mqtt_client is not None:
-        for interaction in stream:
-            mqtt_message = json.dumps(interaction)
-            ret = mqtt_client.publish(mqtt_topic, mqtt_message)
-        applog("MQTT Sent interaction stream")
-    else:
+    if output_to_use == 'MQTT':
+        mqtt_topic = os.getenv("MQTT_TOPIC", "/ui-stream")
+        mqtt_output_stream(stream, mqtt_topic)
+
+    elif output_to_use == 'REDIS_DB':
+        redis_output_stream(stream)
+
+    if output_to_use == 'STDOUT':
         # Save to file for now
-        # TODO: Send via MQTT or standard out to allow it to be piped somewhere (backlog)
         with open('stream.json', 'w') as ofh:
             json.dump(stream,ofh, indent=4, sort_keys=True)
 
         applog()
-        applog("Simulation finished - output can be found in 'stream.json'")
+        applog("Output can be found in 'stream.json'")
+
+
+    applog("Simulation finished. Exiting cleanly")
 
     exit(0)
 

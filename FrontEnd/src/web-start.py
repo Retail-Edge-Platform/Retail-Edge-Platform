@@ -71,6 +71,41 @@ class BaseHandler(tornado.web.RequestHandler):
 # ******************************************************************************
 # WebSocket Handler
 
+def add_interaction_to_redis(redis_client, interaction, count):
+    # Add source to data
+    interaction["src-id"] = "web"
+    #********************************
+    # Take the string and publish to ui-stream on REDIS
+    message = json.dumps(interaction)
+    redis_client.publish('ui-stream', message)
+    #********************************
+    # Set a key value in Redis
+    # Create the key in this order
+    pref_order = ["src-id", "product-id", "product-name", "interaction-type", "timestamp"]
+    list_to_join = []
+    for field in pref_order:
+        value = str(interaction[field])
+        value = value.replace(":", "_") # Filter out any delimiter characters
+        list_to_join.extend([field, value])
+    entry_key = ':'.join(list_to_join) # Create the entry key
+    # Send this to Redis
+    redis_client.set(entry_key, count)
+    #********************************
+    # ZADD this to a set to make searching by datetime easier
+    score = int(interaction['timestamp'])
+    scored_data = entry_key
+    z_key = "web_ts"
+    redis_client.zadd(z_key, {scored_data: score})
+
+
+
+
+    count += 1
+    return count
+
+
+
+
 class WebSocket_Handle(tornado.websocket.WebSocketHandler):
 
     def open(self):
@@ -90,6 +125,7 @@ class WebSocket_Handle(tornado.websocket.WebSocketHandler):
         self.rh = redis.Redis(host=REDIS_IP_ADDRESS, port=6379, db=0)
         self.ps = self.rh.pubsub()
         print("REDIS is open :)")
+        self.count = 0
 
 
 
@@ -109,8 +145,7 @@ class WebSocket_Handle(tornado.websocket.WebSocketHandler):
         # Print it to standard out after converting it from a string to a object
         applog(data)
         if "obj_type" in data and data['obj_type'] == 'UPDATE':
-            # Take the string and publish to ui-stream on REDIS
-            self.rh.publish('ui-stream', message)
+            self.count = add_interaction_to_redis(self.rh, data, self.count)
         else:
             applog("WARNING: Message in MBOC_ExecutionAction_Handler not expected> %s\n" % message)
         
