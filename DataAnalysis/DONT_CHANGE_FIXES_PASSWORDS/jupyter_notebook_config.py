@@ -69,8 +69,8 @@ def install(package):
     
 try:
     import redis
-except:
+except ImportError:
     print("Installing Redis")
-    install(redis)
+    install('redis')
 else:
     print("Redis is already installed")
