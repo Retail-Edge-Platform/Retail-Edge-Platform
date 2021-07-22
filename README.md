@@ -32,6 +32,8 @@ Session Generator to create fictional traffic to allow experimentation with anal
  * Retail experience could be packaged in a stylish and in expensive furniture shell allowing the customer to access the content through a touch screen while also allwoing access to product. 
  * The product could be a pay as you go model with sales inspired by the interface paying for the subscription.
 
+<img src="/assets/sideboards-buffets.jpeg?raw=true" alt="sidboard" width="200"/>
+
 
 
 
